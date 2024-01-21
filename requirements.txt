@@ -1,0 +1,6 @@
+pyproj==3.0.1
+scipy==1.6.2
+scikit-learn==1.0.2
+pandas==1.0.5
+numpy==1.26.3 
+gtsam==4.0.3
