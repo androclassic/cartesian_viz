@@ -1,7 +1,7 @@
 from pyproj import Transformer
 
 from engine import BaseVisualiser 
-from draw_drescriptos import TranformDrawDesc, LineDesc
+from draw_descriptors import Pose2DDrawDesc, LineDesc
 
 def merc(latlon):
     return Transformer.from_crs("WGS84","EPSG:3857").transform(*latlon)[::-1]
@@ -9,10 +9,10 @@ def merc(latlon):
 
 # custom oject inherited from already available one
 #________________________________________________________
-class CustomTransformDesc(TranformDrawDesc):
+class CustomPose2D(Pose2DDrawDesc):
     def __init__(self):
         super().__init__()
-        self.name = "roi_"+ TranformDrawDesc().get_name()
+        self.name = "Custom"+ Pose2DDrawDesc().get_name()
         self._update_names()
         # adding new properties on already existing description
         self.properties_data.update({'type': True})
@@ -57,7 +57,7 @@ def visualiser_sample(inside_notebook=False, g_initialised=False, show_obj1=True
         base_viz = BaseVisualiser(inside_notebook=inside_notebook)
 
         # register custom draw object description 
-        base_viz.add_object_desc(CustomTransformDesc())
+        base_viz.add_object_desc(CustomPose2D())
 
 
         #register callbacks events
@@ -69,16 +69,16 @@ def visualiser_sample(inside_notebook=False, g_initialised=False, show_obj1=True
 
     # draw objects
     if show_obj1:
-        obj_1 = get_entry_data([46.7655178,23.6027677],0,"CUSTOM")
-        base_viz.add_entry_object(CustomTransformDesc().get_name(), obj_1)
+        obj_1 = get_entry_data([46.7655178,23.6027677],0,"CUSTOM", col="blue")
+        base_viz.add_entry_object(CustomPose2D().get_name(), obj_1)
 
     if show_obj2:
-        obj_2 = get_entry_data([46.7655178,23.6027677 + 0.00002],-30,"CUSTOM_LEFT")
-        base_viz.add_entry_object(CustomTransformDesc().get_name(), obj_2)
+        obj_2 = get_entry_data([46.7655178,23.6027677 + 0.00002],-30,"CUSTOM_LEFT", col="green")
+        base_viz.add_entry_object(CustomPose2D().get_name(), obj_2)
 
     if show_obj3:
-        obj_3 = get_entry_data([46.7655178,23.6027677- 0.00002],30,"CUSTOM_RIGHT")
-        base_viz.add_entry_object(CustomTransformDesc().get_name(), obj_3)
+        obj_3 = get_entry_data([46.7655178,23.6027677- 0.00002],30,"CUSTOM_RIGHT", col="red")
+        base_viz.add_entry_object(CustomPose2D().get_name(), obj_3)
     
     line_entry = get_line_entry([46.7655178,23.6027677], [46.7655178,23.6027677+ 0.00002])
     base_viz.add_entry_object(LineDesc().get_name(), line_entry)

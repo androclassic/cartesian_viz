@@ -40,7 +40,10 @@ class PointDesc(DrawObjectDesc):
     def draw(self, df, p):
         self.circles = p.circle(name=self.name, legend_label=self.legend_label, x='longitude', y='latitude',
                                 color='color',
-                                radius=self.radius, radius_units=self.draw_units, alpha=self.alpha, source=df)
+                                radius=self.radius if "point_radius" not in df.columns else "point_radius",
+                                radius_units=self.draw_units,
+                                alpha=self.alpha if "point_alpha" not in df.columns else "point_alpha",
+                                source=df)
         return self.circles
 
 
@@ -196,7 +199,7 @@ class ElipseDesc(PointDesc):
         return p.ellipse(name=self.name, legend_label=self.legend_label, x='longitude', y='latitude', width='size_x', width_units=self.draw_units, height='size_y', height_units=self.draw_units, \
                     angle = 'ellipse_angle', fill_color=fill_color, fill_alpha=0.25, line_color="black", source=df)
 
-class TranformDrawDesc(WedgeDesc):
+class Pose2DDrawDesc(WedgeDesc):
     def __init__(self, radius=0.5, draw_units = 'data', legend_label = None):
         super().__init__()
         self.name = "transform_draw"
@@ -218,11 +221,11 @@ class TranformDrawDesc(WedgeDesc):
         result = self._draw_from_df(df, p)
         return result
 
-class MeasuredTranformDrawDesc(TranformDrawDesc):
+class UncertainPose2DDrawDesc(Pose2DDrawDesc):
     def __init__(self, radius=0.5, draw_units = 'data', legend_label = None):
         self.ellipsedesc = None
         super().__init__(radius=radius, draw_units=draw_units, legend_label=legend_label)
-        self.name = "measured_"+ self.name
+        self.name = "uncertain_"+ self.name
         self.ellipsedesc = ElipseDesc(draw_units=self.draw_units, legend_label=legend_label)
         self._update_names()
         self.properties_data.update(self.ellipsedesc.properties_data)

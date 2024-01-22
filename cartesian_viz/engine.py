@@ -10,7 +10,7 @@ from bokeh.plotting import output_notebook
 
 from collections import defaultdict
 from typing import List
-from draw_drescriptos import *
+from draw_descriptors import *
 
 
 def on_event(base_viz):
@@ -55,8 +55,8 @@ class BaseVisualiser:
         self.add_object_desc(ConnectedLineDesc())
         self.add_object_desc(WedgeDesc())
         self.add_object_desc(ElipseDesc())
-        self.add_object_desc(TranformDrawDesc())
-        self.add_object_desc(MeasuredTranformDrawDesc())
+        self.add_object_desc(Pose2DDrawDesc())
+        self.add_object_desc(UncertainPose2DDrawDesc())
 
     def __construct_figure(self):
         if self.inside_notebook:
