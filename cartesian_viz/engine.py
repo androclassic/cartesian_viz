@@ -10,7 +10,7 @@ from bokeh.plotting import output_notebook
 
 from collections import defaultdict
 from typing import List
-from draw_descriptors import *
+from cartesian_viz.draw_descriptors import *
 
 
 def on_event(base_viz):
